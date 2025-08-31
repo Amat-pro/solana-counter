@@ -866,6 +866,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "program-b"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "solana-counter",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"

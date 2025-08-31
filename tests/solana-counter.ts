@@ -1,6 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { SolanaCounter } from "../target/types/solana_counter";
+import { ProgramB } from "../target/types/program_b";
 import { Keypair } from "@solana/web3.js";
 import { assert } from "chai";
 
@@ -11,6 +12,7 @@ describe("solana-counter", () => {
 
     // SolanaCounter对应Anchor.toml里programs.localnet.solana_counter的PascalCase ！！！
     const program = anchor.workspace.SolanaCounter as Program<SolanaCounter>;
+    const programB = anchor.workspace.programB as Program<ProgramB>;
 
   // 计数器账户 keypair
   const counter = Keypair.generate();
@@ -40,6 +42,19 @@ describe("solana-counter", () => {
     assert.equal(account.count.toNumber(), 1);
     console.log("执行 increment 后，count =", account.count.toNumber());
   });
+
+  it("调用 program-b 执行 increment (+1)", async () => {
+      await programB.methods.increase()
+          .accounts({
+              counter: counter.publicKey,
+          })
+          .rpc();
+
+      const account = await program.account.counter.fetch(counter.publicKey);
+      assert.equal(account.count.toNumber(), 2);
+      console.log("执行 programB increase 后，count =", account.count.toNumber());
+  })
+
 });
 
 // output:
