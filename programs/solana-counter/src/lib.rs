@@ -16,6 +16,12 @@ pub mod solana_counter {
     pub fn increment(ctx: Context<IncrementCounter>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
         counter.count = counter.count.checked_add(1).unwrap();
+
+        // event
+        emit!(EventCounterIncrease {
+            count: counter.count
+        });
+
         Ok(())
     }
 }
@@ -37,7 +43,12 @@ pub struct IncrementCounter<'info> {
 
 #[account]
 pub struct Counter {
-    pub count: u64
+    pub count: u64,
+}
+
+#[event]
+pub struct EventCounterIncrease {
+    count: u64,
 }
 
 // Account 用来访问 本 Program 自己管理的数据账户

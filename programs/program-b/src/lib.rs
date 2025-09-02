@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
-use solana_counter::cpi::increment;
 use solana_counter::cpi::accounts::IncrementCounter;
+use solana_counter::cpi::increment;
 
 declare_id!("4Nzs5xPSUAxPQoA2VWEnyXteuvbhptEGw9x1CVRw94j3");
 
@@ -19,7 +19,6 @@ pub mod program_b {
         increment(cpi_ctx)?; // 调用 solana_counter 的 CPI
         Ok(())
     }
-
 }
 
 #[derive(Accounts)]
